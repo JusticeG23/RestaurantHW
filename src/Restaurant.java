@@ -32,6 +32,7 @@ public class Restaurant {
 
 
     // Getters below:
+
     /**
      * Gets the current Table list
      * @return the list of tables
@@ -58,7 +59,7 @@ public class Restaurant {
 
     /**
      * Gets the current amount of money in the cash register
-     * @return the amount of money in the cash register
+     * @return the double amount of money in the cash register
      */
     public double getCashRegister() {
         return cashRegister;
