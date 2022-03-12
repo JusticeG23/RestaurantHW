@@ -1,14 +1,26 @@
 public class Party {
     private int partySize;
     private String partyName;
-    private boolean isSeated;
-    private double billSubtotal;
+    private double billSubtotal; //FIXME needed?
 
     public Party(int size, String name) {
         this.partySize = size;
         this.partyName = name;
-        this.isSeated = false;
         this.billSubtotal = 0.0;
+    }
+
+    /**
+     * TODO COMMENT
+     * @param server
+     * @return
+     */
+    public String printParty(Server server) {
+        return this.toString() + " - Server #" + server.getServerID();
+    }
+
+    @Override
+    public String toString() {
+        return partyName + " party of " + partySize;
     }
 
     // Getters below:
@@ -30,19 +42,19 @@ public class Party {
     }
 
     /**
-     * Returns true if the Party is seated (in the Restaurant at a Table and not on a waitlist),
-     * false if the Party is not seated (in the waitlist)
-     * @return boolean if the party is seated or not
-     */
-    public boolean isSeated() {
-        return isSeated;
-    }
-
-    /**
      * Gets the subtotal of the bill for the Party
      * @return double the subtotal
      */
     public double getBillSubtotal() {
         return billSubtotal;
+    }
+
+    /**
+     * Calculates the total bill not including tips (subtotal and 10% of the subtotal
+     * as the sales tax)
+     * @return double the subtotal and tax
+     */
+    public double getTotal() {
+        return billSubtotal * 1.10;
     }
 }

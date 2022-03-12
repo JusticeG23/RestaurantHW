@@ -3,31 +3,13 @@ import java.util.List;
 
 public class Server {
     private int serverID;
-    private List<Table> tablesServing;
     private boolean isWorking;
     private double totalTips;
 
-    public Server(int id, boolean isWorking) {
+    public Server(int id) {
         this.serverID = id;
-        this.tablesServing = new ArrayList<>();
-        this.isWorking = isWorking;
+        this.isWorking = true;
         this.totalTips = 0.0;
-    }
-
-    /**
-     * Adds a new Table to the list of tables the Server is helping
-     * @param table the Table to add
-     */
-    public void addTable(Table table) {
-        this.tablesServing.add(table);
-    }
-
-    /**
-     * Removes the Table from the list of tables the Server is helping
-     * @param table the Table to remove
-     */
-    public void removeTable(Table table) {
-        this.tablesServing.remove(table);
     }
 
     /**
@@ -35,15 +17,23 @@ public class Server {
      * @param tip the amount to add
      */
     public void addTip(Double tip) {
-        this.totalTips+= tip;
+        totalTips+= tip;
     }
 
     /**
-     * Changes the current work status.
-     * If currently working, makes isWorking false; if not working, makes isWorking true
+     * Changes the current work status to make isWorking false when the Server clocks out
      */
-    public void changeWorkStatus() {
-        this.isWorking = !this.isWorking;
+    public void clockOut() {
+        isWorking = false;
+    }
+
+    /**
+     * TODO COMMENT
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "Server #" + serverID + " ($" + totalTips + " in total tips)";
     }
 
     // Getters below:
@@ -54,14 +44,6 @@ public class Server {
      */
     public int getServerID() {
         return serverID;
-    }
-
-    /**
-     * Gets the current list of Tables the Server is helping
-     * @return the list of tables
-     */
-    public List<Table> getTablesServing() {
-        return tablesServing;
     }
 
     /**

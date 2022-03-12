@@ -1,24 +1,34 @@
 public class Table {
     private int capacity;
-    private boolean isOccupied;
+    private Party seatedParty;
+    private Server tableServer;
 
     public Table(int capacity) {
         this.capacity = capacity;
-        this.isOccupied = false;
+        this.seatedParty = null;
+        this.tableServer = null;
     }
 
-    /**
-     * Changes the status of the Table so that isOccupied is true when a Party is seated
-     */
-    public void seatParty() {
-        this.isOccupied = true;
+    // TODO comment
+    public void seatParty(Party party, Server server) {
+        seatedParty = party;
+        tableServer = server;
     }
 
-    /**
-     * Changes the status of the Table so that isOccupied is false when a Party leaves
-     */
+    // TODO COMMENT
     public void removeParty() {
-        this.isOccupied = false;
+        seatedParty = null;
+        tableServer = null;
+    }
+
+    /**
+     * TODO COMMENT
+     * @param party
+     * @return
+     */
+    public String printTableStatus(int tableID, Party party) {
+        String tableStatus = party != null ? party.printParty(getTableServer()) : "empty";
+        return "Table " + tableID + " (" + capacity + "-top): " + tableStatus;
     }
 
     // Getters below:
@@ -31,11 +41,13 @@ public class Table {
         return capacity;
     }
 
-    /**
-     * Returns true if the Table is occupied, false if the Table is not occupied
-     * @return boolean if the table is occupied or not
-     */
-    public boolean isOccupied() {
-        return isOccupied;
+    // TODO COMMENT
+    public Party getSeatedParty() {
+        return seatedParty;
+    }
+
+    // TODO COMMENT
+    public Server getTableServer() {
+        return tableServer;
     }
 }
