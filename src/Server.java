@@ -33,7 +33,7 @@ public class Server {
      */
     @Override
     public String toString() {
-        return "Server #" + serverID + " ($" + totalTips + " in total tips)";
+        return "Server #" + serverID + " ($" + String.format("%.02f", totalTips) + " in total tips)";
     }
 
     // Getters below:

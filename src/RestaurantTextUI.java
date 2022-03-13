@@ -123,8 +123,7 @@ public class RestaurantTextUI {
 	// Called when R key is pressed from main menu.
 	// Displays how much money is in the restaurant's cash register.
 	private void cashRegister() {
-		System.out.println("Cash register:");
-		System.out.println("Total money earned = $" + restaurant.getCashRegister());
+		restaurant.printCashRegister();
 	}
 	
 	// Called when T key is pressed from main menu.

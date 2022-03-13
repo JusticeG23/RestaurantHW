@@ -165,13 +165,13 @@ public class Restaurant {
             if (table.getSeatedParty().getPartyName().equals(partyName)) {
                 // server's tips
                 table.getTableServer().addTip(tip);
-                System.out.println("Gave tip of $" + tip + " to Server #" +
+                System.out.println("Gave tip of $" + String.format("%.02f", tip) + " to Server #" +
                         table.getTableServer().getServerID());
 
                 // party's bill
                 double total = subtotal * 1.10; // tax is 10%
                 cashRegister += total;
-                System.out.println("Gave total of $" + total + " to cash register.");
+                System.out.println("Gave total of $" + String.format("%.02f", total) + " to cash register.");
 
                 // remove party from the table
                 seatedParties.remove(table.getSeatedParty());
@@ -217,6 +217,11 @@ public class Restaurant {
             System.out.println(server);
         }
         System.out.println("Current server count: " + serverList.size());
+    }
+
+    public void printCashRegister() {
+        System.out.println("Cash register:");
+        System.out.println("Total money earned = $" + String.format("%.02f", cashRegister));
     }
 
     // Getters below:
