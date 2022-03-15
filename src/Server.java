@@ -1,14 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Server {
     private int serverID;
-    private boolean isWorking;
     private double totalTips;
 
     public Server(int id) {
         this.serverID = id;
-        this.isWorking = true;
         this.totalTips = 0.0;
     }
 
@@ -18,13 +13,6 @@ public class Server {
      */
     public void addTip(Double tip) {
         totalTips+= tip;
-    }
-
-    /**
-     * Changes the current work status to make isWorking false when the Server clocks out
-     */
-    public void clockOut() {
-        isWorking = false;
     }
 
     /**
@@ -44,14 +32,6 @@ public class Server {
      */
     public int getServerID() {
         return serverID;
-    }
-
-    /**
-     * Returns true if the Server is working, false if the Server is not working
-     * @return boolean if the server is working or not
-     */
-    public boolean isWorking() {
-        return isWorking;
     }
 
     /**

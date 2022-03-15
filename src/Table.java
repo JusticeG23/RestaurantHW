@@ -1,5 +1,5 @@
 public class Table {
-    private int capacity;
+    private final int capacity;
     private Party seatedParty;
     private Server tableServer;
 
@@ -9,26 +9,23 @@ public class Table {
         this.tableServer = null;
     }
 
-    // TODO comment
     public void seatParty(Party party, Server server) {
         seatedParty = party;
         tableServer = server;
     }
 
-    // TODO COMMENT
     public void removeParty() {
         seatedParty = null;
         tableServer = null;
     }
 
-    /**
-     * TODO COMMENT
-     * @param party
-     * @return
-     */
     public String printTableStatus(int tableID, Party party) {
         String tableStatus = party != null ? party.printParty(getTableServer()) : "empty";
         return "Table " + tableID + " (" + capacity + "-top): " + tableStatus;
+    }
+
+    public void setServer(Server newServer) {
+        tableServer = newServer;
     }
 
     // Getters below:
@@ -41,12 +38,10 @@ public class Table {
         return capacity;
     }
 
-    // TODO COMMENT
     public Party getSeatedParty() {
         return seatedParty;
     }
 
-    // TODO COMMENT
     public Server getTableServer() {
         return tableServer;
     }

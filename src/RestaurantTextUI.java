@@ -137,7 +137,7 @@ public class RestaurantTextUI {
 	private void checkPlease() {
 		System.out.println("Send the check to a party that has finished eating:");
 		String partyName = ValidInputReader.getValidString("Party's name?", "^[a-zA-Z '-]+$");
-		if (restaurant.partyNameSeated(partyName)) {
+		if (restaurant.partyNameIsSeated(partyName)) {
 			// when such a party is sitting at a table in the restaurant,
 			double subtotal = ValidInputReader.getValidDouble("Bill subtotal?", 0.0, 9999.99);
 			double tip = ValidInputReader.getValidDouble("Tip?", 0.0, 9999.99);
@@ -176,7 +176,7 @@ public class RestaurantTextUI {
 		if (partyWaitlisted) {
 			boolean wait = ValidInputReader.getYesNo("Place this party onto the waiting list? (y/n)");
 			if (wait) {
-				restaurant.waitlistParty(partyName, partySize);
+				restaurant.addPartyToWaitlist(partyName, partySize);
 			}
 		}
 	}
@@ -198,17 +198,5 @@ public class RestaurantTextUI {
 		System.out.println("Never gonna make you cry");
 		System.out.println("Never gonna say goodbye");
 		System.out.println("Never gonna tell a lie and hurt you");
-	}
-	
-	// This helper is just put into the text UI code to mark places where you
-	// will need to add or modify this file.  Crashes with a runtime exception.
-	private void crash(String message) {
-		// Math.random() < 10 will always be true;  so why is it there?
-		// I can't just throw because Eclipse will then warn about dead code
-		// for any code that occurs after a call to crash().
-		// So I wrap the exception throw in an "opaque predicate" to fool it.
-		if (Math.random() < 10) {
-			throw new RuntimeException("Not yet implemented: " + message);
-		}
 	}
 }
