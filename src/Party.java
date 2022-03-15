@@ -10,12 +10,12 @@ public class Party {
     }
 
     /**
-     * TODO COMMENT
-     * @param server
-     * @return
+     * Returns this Party's name, size, and server associated
+     * @param server associated Server object
+     * @return String representation of name, size, and server
      */
     public String printParty(Server server) {
-        return this.toString() + " - Server #" + server.getServerID();
+        return this + " - Server #" + server.getServerID();
     }
 
     @Override

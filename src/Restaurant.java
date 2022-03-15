@@ -14,6 +14,7 @@ public class Restaurant {
     private final String RESTAURANT_FILE_NAME;
     private boolean successfulGeneration;
 
+
     /**
      * Constructor
      */
@@ -36,11 +37,13 @@ public class Restaurant {
         boolean successfulRead = false;
 
         // FIXME need restaurant name?
+        int tableCapacity;
         if (scanner.hasNextLine()) {
             String restaurantName = scanner.nextLine();
             if (scanner.hasNextLine()) {
                 while (scanner.hasNextInt()) {
-                    tableList.add(new Table(scanner.nextInt()));
+                    tableCapacity = scanner.nextInt();
+                    tableList.add(new Table(tableCapacity));
                 }
                 return true;
             }
@@ -49,7 +52,7 @@ public class Restaurant {
     }
 
     /**
-     * Gets the next round robin Server, either for waiting a table or clocking out
+     * Gets the next round-robin Server, either for waiting a table or clocking out
      *
      * @return the Server who is next
      */
@@ -120,10 +123,15 @@ public class Restaurant {
     }
 
     // TODO comment. assume there is at least one server
-    // seats the party if they fit and there is an empty table
-    // returns true if the party is put into the waitlist
-    // adds them to the seated tables if they fit
-    // prints an error if the party cannot fit
+    /**
+     * seats the party if they fit and there is an empty table
+     * returns true if the party is put into the waitlist
+     * adds them to the seated tables if they fit
+     * prints an error if the party cannot fit
+     * @param partyName name of party being evaluated
+     * @param partySize size of party being evaluated
+     * @return whether the party has been wait-listed
+     **/
     public boolean newPartyWaitlisted(String partyName, int partySize) {
         if (partyNameTaken(partyName)) {
             // party name already exists
@@ -187,22 +195,26 @@ public class Restaurant {
     // TODO comment. method assumes that the party is a valid party that is seated (see partyNameSeated)
     public void checkOutParty(String partyName, double subtotal, double tip) {
         for (Table table : tableList) {
-            if (table.getSeatedParty().getPartyName().equals(partyName)) {
-                // server's tips
-                table.getTableServer().addTip(tip);
-                System.out.println("Gave tip of $" + String.format("%.02f", tip) + " to Server #" +
-                        table.getTableServer().getServerID());
+            if (table.isFilled()) {
+                if (table.getSeatedParty().getPartyName().equals(partyName)) {
+                    // server's tips
+                    // FIXME add to server. Appropriate server is being accessed
+                    Server m = table.getTableServer();
+                    table.getTableServer().addTip(tip);
+                    System.out.println("Gave tip of $" + String.format("%.02f", tip) + " to Server #" +
+                            table.getTableServer().getServerID());
 
-                // party's bill
-                double total = subtotal * 1.10; // tax is 10%
-                cashRegister += total;
-                System.out.println("Gave total of $" + String.format("%.02f", total) + " to cash register.");
+                    // party's bill
+                    double total = subtotal * 1.10; // tax is 10%
+                    cashRegister += total;
+                    System.out.println("Gave total of $" + String.format("%.02f", total) + " to cash register.");
 
-                // remove party from the table
-                seatedParties.remove(table.getSeatedParty());
-                table.removeParty();
+                    // remove party from the table
+                    seatedParties.remove(table.getSeatedParty());
+                    table.removeParty();
 
-                return;
+                    return;
+                }
             }
         }
     }

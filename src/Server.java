@@ -14,7 +14,7 @@ public class Server {
      * @param tip the amount to add
      */
     public void addTip(Double tip) {
-        totalTips+= tip;
+        totalTips += tip;
     }
 
     /**
@@ -25,7 +25,7 @@ public class Server {
     }
 
     /**
-     * TODO COMMENT
+     * Returns string representation of server containing ID and money made through tips
      * @return
      */
     @Override

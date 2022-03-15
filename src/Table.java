@@ -1,9 +1,11 @@
 public class Table {
+    private boolean filled;
     private int capacity;
     private Party seatedParty;
     private Server tableServer;
 
     public Table(int capacity) {
+        filled = false;
         this.capacity = capacity;
         this.seatedParty = null;
         this.tableServer = null;
@@ -13,22 +15,28 @@ public class Table {
         tableServer = newServer;
     }
 
-    // TODO comment
+    /**
+     * Assigns a party and server to table, so that it is filled
+     * @param party group assigned to table
+     * @param server attendant assigned to table
+     * */
     public void seatParty(Party party, Server server) {
         seatedParty = party;
         tableServer = server;
     }
 
-    // TODO COMMENT
+    /**
+     * Removes party from current table, and therefore relieve the server too
+     */
     public void removeParty() {
         seatedParty = null;
         tableServer = null;
     }
 
     /**
-     * TODO COMMENT
-     * @param party
-     * @return
+     * Similar to toString, it prints the table's ID, capacity, and vacancy status
+     * @param party Party object assigned to table
+     * @return String representation of pertinent data
      */
     public String printTableStatus(int tableID, Party party) {
         String tableStatus = party != null ? party.printParty(getTableServer()) : "empty";
@@ -38,6 +46,13 @@ public class Table {
     // Getters below:
 
     /**
+     * Gets whether the table is filled
+     * @return boolean to represent vacancy
+     */
+    public boolean isFilled() {
+        return filled;
+    }
+    /**
      * Gets the capacity of the Table
      * @return int the maximum number of people the table can hold
      */
@@ -45,12 +60,18 @@ public class Table {
         return capacity;
     }
 
-    // TODO COMMENT
+    /**
+     * returns Party assigned to table
+     * @return Party object
+     */
     public Party getSeatedParty() {
         return seatedParty;
     }
 
-    // TODO COMMENT
+    /**
+     * returns Server assigned to table
+     * @return server object
+     */
     public Server getTableServer() {
         return tableServer;
     }
