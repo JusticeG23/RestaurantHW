@@ -9,6 +9,10 @@ public class Table {
         this.tableServer = null;
     }
 
+    public void setServer(Server newServer) {
+        tableServer = newServer;
+    }
+
     // TODO comment
     public void seatParty(Party party, Server server) {
         seatedParty = party;

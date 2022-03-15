@@ -73,24 +73,29 @@ public class Restaurant {
     }
 
     // TODO comment
-    // FIXME removes the wrong server :(
     public void removeServer() {
         if (serverList.isEmpty()) {
             System.out.println("No servers to dismiss.");
         } else if (serverList.size() == 1 && !emptyRestaurant()) {
             // last server, not all tables are empty
-            System.out.println("Sorry, the server cannot cash out now;");
+            System.out.println("Sorry, the server cannot cash out now");
             System.out.println("there are still tables remaining and this is the only server left.");
         } else {
             System.out.println("Dismissing a server:");
-            System.out.println("Server #" + nextRoundRobinServer().getServerID() +
-                    " cashes out with $" + nextRoundRobinServer().getTotalTips() +
+            Server serverRemoving = nextRoundRobinServer();
+            System.out.println("Server #" + serverRemoving.getServerID() +
+                    " cashes out with $" + serverRemoving.getTotalTips() +
                     " in total tips.");
-            System.out.println("Servers now available: " + serverList.size());
-
             // remove the server from the serverList
-            nextRoundRobinServer().clockOut(); //TODO req info?
-            serverList.remove(nextRoundRobinServer());
+            serverList.remove(serverRemoving);
+            // assign any tables the server has to the other servers
+            for (Table table : tableList) {
+                if (table.getTableServer() == serverRemoving) {
+                    table.setServer(nextRoundRobinServer());
+                }
+            }
+            // update the number of servers available
+            System.out.println("Servers now available: " + serverList.size());
         }
     }
 
