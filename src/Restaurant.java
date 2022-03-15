@@ -218,7 +218,6 @@ public class Restaurant {
     }
 
     // Getters below:
-
     /**
      * Gets the current Table list
      *

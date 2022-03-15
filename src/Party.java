@@ -17,7 +17,6 @@ public class Party {
     }
 
     // Getters below:
-
     /**
      * Gets the Party size
      * @return the int of the party size

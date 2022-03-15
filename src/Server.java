@@ -25,7 +25,6 @@ public class Server {
     }
 
     // Getters below:
-
     /**
      * Gets the Server ID number
      * @return the int of the server's id

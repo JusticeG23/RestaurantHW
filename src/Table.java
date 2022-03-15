@@ -29,7 +29,6 @@ public class Table {
     }
 
     // Getters below:
-
     /**
      * Gets the capacity of the Table
      * @return int the maximum number of people the table can hold

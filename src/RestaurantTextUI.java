@@ -39,7 +39,7 @@ public class RestaurantTextUI {
 		if (successfulGeneration) {
 			System.out.println("read restaurant info from tables file: " + restaurantFile);
 		} else {
-			// when there is an error reading the file,
+			// when there is an error reading the file
 			System.out.println("Unable to read restaurant data: file not found.");
 		}
 		
