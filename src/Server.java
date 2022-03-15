@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Server {
     private int serverID;
     private boolean isWorking;

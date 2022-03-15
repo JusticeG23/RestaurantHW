@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServerTest {
 
+    // Use static to retain changes
     Server tst = new Server(5);
 
     @Test

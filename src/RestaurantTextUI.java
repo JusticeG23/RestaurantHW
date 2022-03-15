@@ -32,9 +32,10 @@ public class RestaurantTextUI {
 	 * @return true if the data was read successfully; false if there were any errors
 	 */
 	public boolean readRestaurantData() {
-		File restaurantFile = ValidInputReader.getValidFile(
-				"File name for restaurant data [" + DEFAULT_RESTAURANT_FILENAME + "]?",
-				DEFAULT_RESTAURANT_FILENAME);
+//		File restaurantFile = ValidInputReader.getValidFile(
+//				"File name for restaurant data [" + DEFAULT_RESTAURANT_FILENAME + "]?",
+//				DEFAULT_RESTAURANT_FILENAME);
+		File restaurantFile = new File("tables.txt");
 
 		boolean successfulGeneration = restaurant.isSuccessfulGeneration();
 		if (successfulGeneration) {

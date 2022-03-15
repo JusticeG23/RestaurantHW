@@ -16,7 +16,6 @@ public class Restaurant {
 
     /**
      * Constructor
-     * TODO Apply singleton
      */
     public Restaurant(String fileName) throws FileNotFoundException {
         this.tableList = new ArrayList<>();
@@ -120,7 +119,6 @@ public class Restaurant {
     // returns true if the party is put into the waitlist
     // adds them to the seated tables if they fit
     // prints an error if the party cannot fit
-    // FIXME adjust so that the pary is seated at the smallest fitting table
     public boolean newPartyWaitlisted(String partyName, int partySize) {
         if (partyNameTaken(partyName)) {
             // party name already exists
@@ -130,30 +128,50 @@ public class Restaurant {
         } else {
             Party party = new Party(partySize, partyName);
             boolean partyTooBig = true;
+            Table tableChosen = tableList.get(0);
+            // variable to hold extra space at a table
+            int extraSpace;
+            // Restaurant limit
+            int minSpace = 9;
+            boolean availableTables = false;
+
             for (Table table : tableList) {
-                // TODO Compute difference in party and table capacity
-                if (partySize <= table.getCapacity()) {
-                    // there is a table big enough to seat the party
+                // If it can fit the table and is empty
+                if (table.getCapacity() >= partySize && table.getSeatedParty() == null) {
+                    // We can seat the table, but not yet
                     partyTooBig = false;
-                   if (table.getSeatedParty() == null) {
-                       // empty table
+                    availableTables = true;
+                    // If it's a perfect fit, seat them now
+                    if (table.getCapacity() == partySize) {
                         seatedParties.add(party);
                         table.seatParty(party, nextRoundRobinServer());
                         return false;
-                   }
+                    }
+                    // Otherwise, get extra space
+                    else {
+                        extraSpace = table.getCapacity() - partySize;
+                        if (extraSpace < minSpace) {
+                            minSpace = extraSpace;
+                            tableChosen = table;
+                        }
+                    }
                 }
             }
-
-            if (partyTooBig) {
+            if (!partyTooBig && availableTables) {
+                seatedParties.add(party);
+                tableChosen.seatParty(party, nextRoundRobinServer());
+                return false;
+            } else if (partyTooBig) {
                 // the party cannot fit at a table in the restaurant
                 System.out.println("Sorry, the restaurant is unable to seat a party of this size.");
                 return false;
+            } else {
+                // party can fit, but there is no available table, return control to textUI
+                // to see if they'd like to be added to the waitlist
+                System.out.println("Sorry, there is no open table that can seat this party now.");
+                return true;
             }
 
-            // party can fit, but there is no available table, return control to textUI
-            // to see if they'd like to be added to the waitlist
-            System.out.println("Sorry, there is no open table that can seat this party now.");
-            return true;
         }
     }
 
