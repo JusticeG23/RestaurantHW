@@ -2,7 +2,8 @@
 // Instructor-provided code.
 // You SHOULD heavily modify this file to make it interface with your own classes.
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 // import java.util.*;
 
 /**
@@ -54,32 +55,44 @@ public class RestaurantTextUI {
 	public void mainMenu() {
 		// main menu
 		displayOptions();
+		label:
 		while (true) {
 			String choice = ValidInputReader.getValidString(
 					"Main menu, enter your choice:",
 					"^[sSaAdDrRpPtTcCwWqQ!?]$").toUpperCase();
-			if (choice.equals("S")) {
-				serversOnDuty();
-			} else if (choice.equals("A")) {
+			switch (choice) {
+				case "S":
+					serversOnDuty();
+					break;
+				case "A":
 					addServer();
-			} else if (choice.equals("D")) {
-				dismissServer();
-			} else if (choice.equals("R")) {
-				cashRegister();
-			} else if (choice.equals("P")) {
-				partyToBeSeated();
-			} else if (choice.equals("T")) {
-				tableStatus();
-			} else if (choice.equals("C")) {
-				checkPlease();
-			} else if (choice.equals("W")) {
-				waitingList();
-			} else if (choice.equals("Q")) {
-				break;
-			} else if (choice.equals("?")) {
-				displayOptions();
-			} else if (choice.equals("!")) {
-				rickRoll();
+					break;
+				case "D":
+					dismissServer();
+					break;
+				case "R":
+					cashRegister();
+					break;
+				case "P":
+					partyToBeSeated();
+					break;
+				case "T":
+					tableStatus();
+					break;
+				case "C":
+					checkPlease();
+					break;
+				case "W":
+					waitingList();
+					break;
+				case "Q":
+					break label;
+				case "?":
+					displayOptions();
+					break;
+				case "!":
+					rickRoll();
+					break;
 			}
 			System.out.println();
 		}

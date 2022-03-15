@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-    private List<Table> tableList;
+    private static List<Table> tableList;
     private List<Server> serverList;
     private List<Party> waitlist;
     private List<Party> seatedParties;
@@ -16,6 +16,7 @@ public class Restaurant {
 
     /**
      * Constructor
+     * TODO Apply singleton
      */
     public Restaurant(String fileName) throws FileNotFoundException {
         this.tableList = new ArrayList<>();
@@ -24,7 +25,7 @@ public class Restaurant {
         this.seatedParties = new ArrayList<>();
         this.cashRegister = 0.0;
         this.nextServerID = 1; // for creating/adding new servers to the restaurant
-        this.nextServer = -1; // for getting the round robin server
+        this.nextServer = -1; // for getting the round-robin server
         this.RESTAURANT_FILE_NAME = fileName;
 
         // initialize restaurant with fileName details
@@ -130,6 +131,7 @@ public class Restaurant {
             Party party = new Party(partySize, partyName);
             boolean partyTooBig = true;
             for (Table table : tableList) {
+                // TODO Compute difference in party and table capacity
                 if (partySize <= table.getCapacity()) {
                     // there is a table big enough to seat the party
                     partyTooBig = false;

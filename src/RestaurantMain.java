@@ -1,5 +1,6 @@
 // Restaurant Homework 
 // Instructor-provided code; do not modify.
+// Justice - https://github.com/cbu-egr326-sp22/hw3-JusticeG23.git
 
 import java.io.FileNotFoundException;
 
