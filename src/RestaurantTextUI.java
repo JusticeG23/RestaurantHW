@@ -2,6 +2,7 @@
 // Instructor-provided code.
 // You SHOULD heavily modify this file to make it interface with your own classes.
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 // import java.util.*;
@@ -9,15 +10,15 @@ import java.io.FileNotFoundException;
 /**
  * This class represents the text user interface (UI) for the restaurant
  * program, allowing the user to view and manage the restaurant and its objects.
- * 
+ *
  * @author Marty Stepp
  * @version Spring 2011 v1.0
  */
 public class RestaurantTextUI {
 	// file name from which to read the restaurant data
 	private static final String DEFAULT_RESTAURANT_FILENAME = "tables.txt";
-	private Restaurant restaurant;
-	
+	private final Restaurant restaurant;
+
 	/**
 	 * Constructs a new text user interface for managing a restaurant.
 	 */
@@ -25,18 +26,18 @@ public class RestaurantTextUI {
 		System.out.println("EGR 326 Restaurant Simulator");
 		restaurant = new Restaurant(DEFAULT_RESTAURANT_FILENAME);
 	}
-	
+
 	/**
 	 * Reads the information about the restaurant from the default restaurant
 	 * file.
 	 * @return true if the data was read successfully; false if there were any errors
 	 */
 	public boolean readRestaurantData() {
+		// Can uncomment to get input from user instead. Seems unnecessary
 //		File restaurantFile = ValidInputReader.getValidFile(
 //				"File name for restaurant data [" + DEFAULT_RESTAURANT_FILENAME + "]?",
 //				DEFAULT_RESTAURANT_FILENAME);
 		File restaurantFile = new File("tables.txt");
-
 		boolean successfulGeneration = restaurant.isSuccessfulGeneration();
 		if (successfulGeneration) {
 			System.out.println("read restaurant info from tables file: " + restaurantFile);
@@ -44,11 +45,11 @@ public class RestaurantTextUI {
 			// when there is an error reading the file,
 			System.out.println("Unable to read restaurant data: file not found.");
 		}
-		
+
 		System.out.println();
 		return successfulGeneration;
 	}
-	
+
 	/**
 	 * Displays the main menu of choices and prompts the user to enter a choice.
 	 * Once a valid choice is made, initiates other code to handle that choice.
@@ -92,13 +93,13 @@ public class RestaurantTextUI {
 					displayOptions();
 					break;
 				case "!":
-					rickRoll();
+					getContent();
 					break;
 			}
 			System.out.println();
 		}
 	}
-	
+
 	// Displays the list of key commands the user can use.
 	private void displayOptions() {
 		System.out.println();
@@ -115,37 +116,37 @@ public class RestaurantTextUI {
 		System.out.println("?) display this menu of choices again");
 		System.out.println("Q)uit");
 	}
-	
+
 	// Called when S key is pressed from main menu.
 	// Displays all servers who are currently working.
 	private void serversOnDuty() {
 		restaurant.printServerList();
 	}
-	
+
 	// Called when A key is pressed from main menu.
 	// Adds one more server to the system.
 	private void addServer() {
 		restaurant.addServer();
 	}
-	
+
 	// Called when D key is pressed from main menu.
 	// Sends one server home for the night (if possible).
 	private void dismissServer() {
 		restaurant.removeServer();
 	}
-	
+
 	// Called when R key is pressed from main menu.
 	// Displays how much money is in the restaurant's cash register.
 	private void cashRegister() {
 		restaurant.printCashRegister();
 	}
-	
+
 	// Called when T key is pressed from main menu.
 	// Displays the current status of all tables.
 	private void tableStatus() {
 		restaurant.printTableList();
 	}
-	
+
 	// Called when C key is pressed from main menu.
 	// Helps process a party's check to leave the restaurant.
 	private void checkPlease() {
@@ -162,13 +163,13 @@ public class RestaurantTextUI {
 			System.out.println("There is no party by that name.");
 		}
 	}
-	
+
 	// Called when W key is pressed from main menu.
 	// Displays the current waiting list, if any.
 	private void waitingList() {
 		restaurant.printWaitlist();
 	}
-	
+
 	// Called when P key is pressed from main menu.
 	// Helps seat a newly arriving party at a table in the restaurant.
 	private void partyToBeSeated() {
@@ -181,11 +182,10 @@ public class RestaurantTextUI {
 
 		// when there is at least one server,
 		String partyName = ValidInputReader.getValidString("Party's name?", "^[a-zA-Z '-]+$");
-		int partySize = ValidInputReader.getValidInt("How many people in the party?", 1, 99999);
-
+		int partySize = ValidInputReader.getValidInt("How many people in the party?", 1, 8);
 		// try to seat this party
 		boolean partyWaitlisted = restaurant.newPartyWaitlisted(partyName, partySize);
-		
+
 		// when all tables large enough to accommodate this party are taken,
 		if (partyWaitlisted) {
 			boolean wait = ValidInputReader.getYesNo("Place this party onto the waiting list? (y/n)");
@@ -194,35 +194,27 @@ public class RestaurantTextUI {
 			}
 		}
 	}
-	
-	
-	// You know what this method does.
-	private void rickRoll() {
-		// tell you how I'm feeling; make you understand
-		System.out.println("We're no strangers to love");
-		System.out.println("You know the rules and so do I");
-		System.out.println("A full commitment's what I'm thinking of");
-		System.out.println("You wouldn't get this from any other guy");
-		System.out.println("I just wanna tell you how I'm feeling");
-		System.out.println("Gotta make you understand");
-		System.out.println();
-		System.out.println("Never gonna give you up");
-		System.out.println("Never gonna let you down");
-		System.out.println("Never gonna run around and desert you");
-		System.out.println("Never gonna make you cry");
-		System.out.println("Never gonna say goodbye");
-		System.out.println("Never gonna tell a lie and hurt you");
+
+	/**
+	 * Nondescript utility function to call a project method for implementation of program structure
+	 */
+	private void getContent() {
+		String message = """
+                ⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠻⣿⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣄⡀⠀⢻⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⠃⢰⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⢶⣶⣶⣾⣿⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⢠⡀⠐⠀⠀⠀⠻⢿⣿⣿⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢸⣷⡄⠀⠣⣄⡀⠀⠉⠛⢿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⣿⣿⣦⠀⠹⣿⣷⣶⣦⣼⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣼⣿⣿⣿⣷⣄⣸⣿⣿⣿⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+                ⣿⣿⡿⢛⡙⢻⠛⣉⢻⣉⢈⣹⣿⣿⠟⣉⢻⡏⢛⠙⣉⢻⣿⣿⣿
+                ⣿⣿⣇⠻⠃⣾⠸⠟⣸⣿⠈⣿⣿⣿⡀⠴⠞⡇⣾⡄⣿⠘⣿⣿⣿
+                ⣿⣿⣟⠛⣃⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿""";
+		JOptionPane.showMessageDialog(new JFrame(), message, "Get got", JOptionPane.PLAIN_MESSAGE);
 	}
-	
-	// This helper is just put into the text UI code to mark places where you
-	// will need to add or modify this file.  Crashes with a runtime exception.
-	private void crash(String message) {
-		// Math.random() < 10 will always be true;  so why is it there?
-		// I can't just throw because Eclipse will then warn about dead code
-		// for any code that occurs after a call to crash().
-		// So I wrap the exception throw in an "opaque predicate" to fool it.
-		if (Math.random() < 10) {
-			throw new RuntimeException("Not yet implemented: " + message);
-		}
-	}
+
 }

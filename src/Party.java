@@ -1,6 +1,6 @@
 public class Party {
-    private int partySize;
-    private String partyName;
+    private final int partySize;
+    private final String partyName;
     private double billSubtotal; //FIXME needed?
 
     public Party(int size, String name) {

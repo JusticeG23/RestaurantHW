@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-    private static List<Table> tableList;
+    private final List<Table> tableList;
     private List<Server> serverList;
-    private List<Party> waitlist;
+    private List<Party> waitList;
     private List<Party> seatedParties;
     private double cashRegister;
     private int nextServerID;
@@ -21,7 +21,7 @@ public class Restaurant {
     public Restaurant(String fileName) throws FileNotFoundException {
         this.tableList = new ArrayList<>();
         this.serverList = new ArrayList<>();
-        this.waitlist = new ArrayList<>();
+        this.waitList = new ArrayList<>();
         this.seatedParties = new ArrayList<>();
         this.cashRegister = 0.0;
         this.nextServerID = 1; // for creating/adding new servers to the restaurant
@@ -63,7 +63,7 @@ public class Restaurant {
 
     public void addParty(Party party) {
         if (!serverList.isEmpty()) { // adds a party to the waitlist if there is a server
-            waitlist.add(party);
+            waitList.add(party);
         }
     }
 
@@ -113,7 +113,7 @@ public class Restaurant {
 
     private boolean partyNameTaken(String partyName) {
         // check waitlist for the name
-        for (Party party : waitlist) {
+        for (Party party : waitList) {
             if (party.getPartyName().equals(partyName)) {
                 return true;
             }
@@ -122,13 +122,12 @@ public class Restaurant {
         return partyNameSeated(partyName);
     }
 
-    // TODO comment. assume there is at least one server
     /**
-     * seats the party if they fit and there is an empty table
+     * Seats the party if they fit and there is an empty table
      * returns true if the party is put into the waitlist
      * adds them to the seated tables if they fit
      * prints an error if the party cannot fit
-     * @param partyName name of party being evaluated
+     * @param partyName unique name of party being evaluated
      * @param partySize size of party being evaluated
      * @return whether the party has been wait-listed
      **/
@@ -137,7 +136,7 @@ public class Restaurant {
             // party name already exists
             System.out.println("We already have a party with that name in the restaurant.");
             System.out.println("Please try again with a unique party name.");
-            return true; // they are not waitlisted since not a valid name
+            return false; // they are not waitlisted since not a valid name
         } else {
             Party party = new Party(partySize, partyName);
             boolean partyTooBig = true;
@@ -150,22 +149,24 @@ public class Restaurant {
 
             for (Table table : tableList) {
                 // If it can fit the table and is empty
-                if (table.getCapacity() >= partySize && table.getSeatedParty() == null) {
+                if (table.getCapacity() >= partySize) {
                     // We can seat the table, but not yet
                     partyTooBig = false;
-                    availableTables = true;
-                    // If it's a perfect fit, seat them now
-                    if (table.getCapacity() == partySize) {
-                        seatedParties.add(party);
-                        table.seatParty(party, nextRoundRobinServer());
-                        return false;
-                    }
-                    // Otherwise, get extra space
-                    else {
-                        extraSpace = table.getCapacity() - partySize;
-                        if (extraSpace < minSpace) {
-                            minSpace = extraSpace;
-                            tableChosen = table;
+                    if (table.getSeatedParty() == null) {
+                        availableTables = true;
+                        // If it's a perfect fit, seat them now
+                        if (table.getCapacity() == partySize) {
+                            seatedParties.add(party);
+                            table.seatParty(party, nextRoundRobinServer());
+                            return false;
+                        }
+                        // Otherwise, get extra space
+                        else {
+                            extraSpace = table.getCapacity() - partySize;
+                            if (extraSpace < minSpace) {
+                                minSpace = extraSpace;
+                                tableChosen = table;
+                            }
                         }
                     }
                 }
@@ -177,11 +178,12 @@ public class Restaurant {
             } else if (partyTooBig) {
                 // the party cannot fit at a table in the restaurant
                 System.out.println("Sorry, the restaurant is unable to seat a party of this size.");
-                return false;
+                return true;
             } else {
                 // party can fit, but there is no available table, return control to textUI
                 // to see if they'd like to be added to the waitlist
                 System.out.println("Sorry, there is no open table that can seat this party now.");
+//                waitList.add(party);
                 return true;
             }
 
@@ -189,10 +191,11 @@ public class Restaurant {
     }
 
     public void waitlistParty(String partyName, int partySize) {
-        waitlist.add(new Party(partySize, partyName));
+        waitList.add(new Party(partySize, partyName));
     }
 
     // TODO comment. method assumes that the party is a valid party that is seated (see partyNameSeated)
+    // Fixme add tip to server and add new party
     public void checkOutParty(String partyName, double subtotal, double tip) {
         for (Table table : tableList) {
             if (table.isFilled()) {
@@ -231,10 +234,10 @@ public class Restaurant {
 
     public void printWaitlist() {
         System.out.println("Waiting list:");
-        if (waitlist.isEmpty()) {
+        if (waitList.isEmpty()) {
             System.out.println("empty");
         } else {
-            for (Party party : waitlist) {
+            for (Party party : waitList) {
                 System.out.println(party.toString());
             }
         }
@@ -286,8 +289,8 @@ public class Restaurant {
      *
      * @return the list of parties
      */
-    public List<Party> getWaitlist() {
-        return waitlist;
+    public List<Party> getWaitList() {
+        return waitList;
     }
 
     /**
