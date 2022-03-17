@@ -21,6 +21,7 @@ public class Table {
      * @param server attendant assigned to table
      * */
     public void seatParty(Party party, Server server) {
+        filled = true;
         seatedParty = party;
         tableServer = server;
     }
@@ -29,6 +30,7 @@ public class Table {
      * Removes party from current table, and therefore relieve the server too
      */
     public void removeParty() {
+        filled = false;
         seatedParty = null;
         tableServer = null;
     }
