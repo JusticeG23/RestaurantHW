@@ -2,7 +2,6 @@
 // Instructor-provided code.
 // You SHOULD heavily modify this file to make it interface with your own classes.
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 // import java.util.*;
@@ -152,7 +151,7 @@ public class RestaurantTextUI {
 	private void checkPlease() {
 		System.out.println("Send the check to a party that has finished eating:");
 		String partyName = ValidInputReader.getValidString("Party's name?", "^[a-zA-Z '-]+$");
-		if (restaurant.partyNameSeated(partyName)) {
+		if (restaurant.partyNameIsSeated(partyName)) {
 			// when such a party is sitting at a table in the restaurant,
 			double subtotal = ValidInputReader.getValidDouble("Bill subtotal?", 0.0, 9999.99);
 			double tip = ValidInputReader.getValidDouble("Tip?", 0.0, 9999.99);
@@ -190,7 +189,7 @@ public class RestaurantTextUI {
 		if (partyWaitlisted) {
 			boolean wait = ValidInputReader.getYesNo("Place this party onto the waiting list? (y/n)");
 			if (wait) {
-				restaurant.waitlistParty(partyName, partySize);
+				restaurant.addPartyToWaitlist(partyName, partySize);
 			}
 		}
 	}
@@ -199,7 +198,7 @@ public class RestaurantTextUI {
 	 * Nondescript utility function to call a project method for implementation of program structure
 	 */
 	private void getContent() {
-		String message = """
+		System.out.println("""
                 ⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠻⣿⣿⣿⣿⣿⣿
                 ⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣄⡀⠀⢻⣿⣿⣿⣿⣿
                 ⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⠃⢰⣿⣿⣿⣿⣿
@@ -213,8 +212,7 @@ public class RestaurantTextUI {
                 ⣿⣿⡿⢛⡙⢻⠛⣉⢻⣉⢈⣹⣿⣿⠟⣉⢻⡏⢛⠙⣉⢻⣿⣿⣿
                 ⣿⣿⣇⠻⠃⣾⠸⠟⣸⣿⠈⣿⣿⣿⡀⠴⠞⡇⣾⡄⣿⠘⣿⣿⣿
                 ⣿⣿⣟⠛⣃⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿
-                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿""";
-		JOptionPane.showMessageDialog(new JFrame(), message, "Get got", JOptionPane.PLAIN_MESSAGE);
+                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿""");
 	}
 
 }

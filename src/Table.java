@@ -1,6 +1,6 @@
 public class Table {
     private boolean filled;
-    private int capacity;
+    private final int capacity;
     private Party seatedParty;
     private Server tableServer;
 
@@ -69,7 +69,6 @@ public class Table {
     public Party getSeatedParty() {
         return seatedParty;
     }
-
     /**
      * returns Server assigned to table
      * @return server object

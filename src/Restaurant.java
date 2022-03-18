@@ -6,10 +6,10 @@ import java.util.List;
 public class Restaurant {
     private final List<Table> tableList;
     private List<Server> serverList;
-    private List<Party> waitList;
+    private List<Party> waitlist;
     private List<Party> seatedParties;
     private double cashRegister;
-    private int nextServerID;
+    private int nextNewServerID;
     private int nextServer;
     private final String RESTAURANT_FILE_NAME;
     private boolean successfulGeneration;
@@ -21,10 +21,10 @@ public class Restaurant {
     public Restaurant(String fileName) throws FileNotFoundException {
         this.tableList = new ArrayList<>();
         this.serverList = new ArrayList<>();
-        this.waitList = new ArrayList<>();
+        this.waitlist = new ArrayList<>();
         this.seatedParties = new ArrayList<>();
         this.cashRegister = 0.0;
-        this.nextServerID = 1; // for creating/adding new servers to the restaurant
+        this.nextNewServerID = 1; // for creating/adding new servers to the restaurant
         this.nextServer = -1; // for getting the round-robin server
         this.RESTAURANT_FILE_NAME = fileName;
 
@@ -63,23 +63,23 @@ public class Restaurant {
 
     public void addParty(Party party) {
         if (!serverList.isEmpty()) { // adds a party to the waitlist if there is a server
-            waitList.add(party);
+            waitlist.add(party);
         }
     }
 
     // TODO comment
     public void addServer() {
         System.out.println("Adding a new server to our workforce:");
-        serverList.add(new Server(nextServerID));
+        serverList.add(new Server(nextNewServerID));
         System.out.println("Current server count: " + serverList.size());
-        nextServerID++;
+        nextNewServerID++;
     }
 
     // TODO comment
     public void removeServer() {
         if (serverList.isEmpty()) {
             System.out.println("No servers to dismiss.");
-        } else if (serverList.size() == 1 && !emptyRestaurant()) {
+        } else if (serverList.size() == 1 && !restaurantIsEmpty()) {
             // last server, not all tables are empty
             System.out.println("Sorry, the server cannot cash out now");
             System.out.println("there are still tables remaining and this is the only server left.");
@@ -102,7 +102,7 @@ public class Restaurant {
         }
     }
 
-    private boolean emptyRestaurant() {
+    private boolean restaurantIsEmpty() {
         for (Table table : tableList) {
             if (table.getSeatedParty() != null) {
                 return false;
@@ -111,15 +111,15 @@ public class Restaurant {
         return true;
     }
 
-    private boolean partyNameTaken(String partyName) {
+    private boolean partyNameIsTaken(String partyName) {
         // check waitlist for the name
-        for (Party party : waitList) {
+        for (Party party : waitlist) {
             if (party.getPartyName().equals(partyName)) {
                 return true;
             }
         }
         // check seated parties for the name
-        return partyNameSeated(partyName);
+        return partyNameIsSeated(partyName);
     }
 
     /**
@@ -132,7 +132,7 @@ public class Restaurant {
      * @return whether the party has been wait-listed
      **/
     public boolean newPartyWaitlisted(String partyName, int partySize) {
-        if (partyNameTaken(partyName)) {
+        if (partyNameIsTaken(partyName)) {
             // party name already exists
             System.out.println("We already have a party with that name in the restaurant.");
             System.out.println("Please try again with a unique party name.");
@@ -190,8 +190,8 @@ public class Restaurant {
         }
     }
 
-    public void waitlistParty(String partyName, int partySize) {
-        waitList.add(new Party(partySize, partyName));
+    public void addPartyToWaitlist(String partyName, int partySize) {
+        waitlist.add(new Party(partySize, partyName));
     }
 
     // TODO comment. method assumes that the party is a valid party that is seated (see partyNameSeated)
@@ -201,7 +201,6 @@ public class Restaurant {
             if (table.isFilled()) {
                 if (table.getSeatedParty().getPartyName().equals(partyName)) {
                     // server's tips
-                    // FIXME add to server. Appropriate server is being accessed
                     Server m = table.getTableServer();
                     table.getTableServer().addTip(tip);
                     System.out.println("Gave tip of $" + String.format("%.02f", tip) + " to Server #" +
@@ -222,7 +221,7 @@ public class Restaurant {
         }
     }
 
-    public boolean partyNameSeated(String partyName) {
+    public boolean partyNameIsSeated(String partyName) {
         for (Table table : tableList) {
             if (table.getSeatedParty() != null &&
                     table.getSeatedParty().getPartyName().equals(partyName)) {
@@ -234,10 +233,10 @@ public class Restaurant {
 
     public void printWaitlist() {
         System.out.println("Waiting list:");
-        if (waitList.isEmpty()) {
+        if (waitlist.isEmpty()) {
             System.out.println("empty");
         } else {
-            for (Party party : waitList) {
+            for (Party party : waitlist) {
                 System.out.println(party.toString());
             }
         }
@@ -247,7 +246,7 @@ public class Restaurant {
         System.out.println("Tables status:");
         for (int i = 0; i < tableList.size(); i++) {
             Table currTable = tableList.get(i);
-            System.out.println(currTable.printTableStatus(i, currTable.getSeatedParty()));
+            System.out.println(currTable.printTableStatus(i + 1, currTable.getSeatedParty()));
         }
     }
 
@@ -289,8 +288,8 @@ public class Restaurant {
      *
      * @return the list of parties
      */
-    public List<Party> getWaitList() {
-        return waitList;
+    public List<Party> getWaitlist() {
+        return waitlist;
     }
 
     /**
