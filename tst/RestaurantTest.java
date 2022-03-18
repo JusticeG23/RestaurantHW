@@ -2,6 +2,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +12,8 @@ class RestaurantTest {
 
     Restaurant restaurant = new Restaurant("tables.txt");
     Party party = new Party(5, "Sam's Club");
+    // global list of names
+    List<String> names = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h");
     // Need this to throw exception in case tables.txt gets moved
     RestaurantTest() throws FileNotFoundException {}
 
@@ -170,7 +174,7 @@ class RestaurantTest {
 
     @Test
     void getWaitlist() {
-        // todo add to waitlist
+        // todo add to waitlist for line coverage
         assertNotNull(restaurant.getWaitlist());
     }
 
@@ -191,21 +195,11 @@ class RestaurantTest {
     }
 
     void fillRestaurant(Restaurant r) {
-        r.addServer();
-        r.addServer();
-        r.addServer();
-        r.addServer();
-        r.addServer();
-        r.addServer();
-        r.addServer();
-        r.addServer();
-        r.seatParty("a", 2);
-        r.seatParty("b", 2);
-        r.seatParty("c", 2);
-        r.seatParty("d", 2);
-        r.seatParty("e", 2);
-        r.seatParty("f", 2);
-        r.seatParty("g", 2);
-        r.seatParty("h", 2);
+
+        for (int i = 0; i < 8; i++) {
+             r.addServer();
+             r.seatParty(names.get(i), 2);
+
+        }
     }
 }
