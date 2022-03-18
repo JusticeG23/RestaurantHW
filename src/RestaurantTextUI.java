@@ -119,7 +119,7 @@ public class RestaurantTextUI {
 	// Called when S key is pressed from main menu.
 	// Displays all servers who are currently working.
 	private void serversOnDuty() {
-		restaurant.printServerList();
+		System.out.println(restaurant.printServerList());
 	}
 
 	// Called when A key is pressed from main menu.
@@ -137,13 +137,13 @@ public class RestaurantTextUI {
 	// Called when R key is pressed from main menu.
 	// Displays how much money is in the restaurant's cash register.
 	private void cashRegister() {
-		restaurant.printCashRegister();
+		System.out.println(restaurant.printCashRegister());
 	}
 
 	// Called when T key is pressed from main menu.
 	// Displays the current status of all tables.
 	private void tableStatus() {
-		restaurant.printTableList();
+		System.out.println(restaurant.printTableList());
 	}
 
 	// Called when C key is pressed from main menu.
@@ -166,7 +166,7 @@ public class RestaurantTextUI {
 	// Called when W key is pressed from main menu.
 	// Displays the current waiting list, if any.
 	private void waitingList() {
-		restaurant.printWaitlist();
+		System.out.println(restaurant.printWaitlist());
 	}
 
 	// Called when P key is pressed from main menu.
@@ -182,8 +182,9 @@ public class RestaurantTextUI {
 		// when there is at least one server,
 		String partyName = ValidInputReader.getValidString("Party's name?", "^[a-zA-Z '-]+$");
 		int partySize = ValidInputReader.getValidInt("How many people in the party?", 1, 8);
+		// todo create party here to pass one object rather than mutliple?
 		// try to seat this party
-		boolean partyWaitlisted = restaurant.newPartyWaitlisted(partyName, partySize);
+		boolean partyWaitlisted = restaurant.seatParty(partyName, partySize);
 
 		// when all tables large enough to accommodate this party are taken,
 		if (partyWaitlisted) {

@@ -34,7 +34,6 @@ public class Restaurant {
 
     private boolean setUpRestaurant() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(RESTAURANT_FILE_NAME));
-        boolean successfulRead = false;
 
         // FIXME need restaurant name?
         int tableCapacity;
@@ -50,6 +49,7 @@ public class Restaurant {
         }
         return false;
     }
+    // todo method headers
 
     /**
      * Gets the next round-robin Server, either for waiting a table or clocking out
@@ -58,6 +58,9 @@ public class Restaurant {
      */
     private Server nextRoundRobinServer() {
         nextServer++;
+        if (nextServer == 0) {
+            return serverList.get(nextServer);
+        }
         return serverList.get(nextServer % serverList.size());
     }
 
@@ -124,14 +127,14 @@ public class Restaurant {
 
     /**
      * Seats the party if they fit and there is an empty table
-     * returns true if the party is put into the waitlist
+     * returns false if the party is added to table
      * adds them to the seated tables if they fit
      * prints an error if the party cannot fit
      * @param partyName unique name of party being evaluated
      * @param partySize size of party being evaluated
      * @return whether the party has been wait-listed
      **/
-    public boolean newPartyWaitlisted(String partyName, int partySize) {
+    public boolean seatParty(String partyName, int partySize) {
         if (partyNameIsTaken(partyName)) {
             // party name already exists
             System.out.println("We already have a party with that name in the restaurant.");
@@ -183,7 +186,6 @@ public class Restaurant {
                 // party can fit, but there is no available table, return control to textUI
                 // to see if they'd like to be added to the waitlist
                 System.out.println("Sorry, there is no open table that can seat this party now.");
-//                waitList.add(party);
                 return true;
             }
 
@@ -231,36 +233,41 @@ public class Restaurant {
         return false;
     }
 
-    public void printWaitlist() {
-        System.out.println("Waiting list:");
+    public String printWaitlist() {
+        StringBuilder sB = new StringBuilder();
+        sB.append("Waiting list:\n");
         if (waitlist.isEmpty()) {
-            System.out.println("empty");
+            sB.append("empty\n");
         } else {
             for (Party party : waitlist) {
-                System.out.println(party.toString());
+                sB.append(party.toString());
             }
         }
+        return sB.toString();
     }
 
-    public void printTableList() {
-        System.out.println("Tables status:");
+    public String printTableList() {
+        StringBuilder sB = new StringBuilder();
+        sB.append("Tables status:\n");
         for (int i = 0; i < tableList.size(); i++) {
             Table currTable = tableList.get(i);
-            System.out.println(currTable.printTableStatus(i + 1, currTable.getSeatedParty()));
+            sB.append(currTable.printTableStatus(i + 1, currTable.getSeatedParty())).append("\n");
         }
+        return sB.toString();
     }
 
-    public void printServerList() {
-        System.out.println("Servers currently on duty:");
+    public String printServerList() {
+        StringBuilder sB = new StringBuilder();
+        sB.append("Servers currently on duty:");
         for (Server server : serverList) {
-            System.out.println(server);
+            sB.append(server).append("\n");
         }
-        System.out.println("Current server count: " + serverList.size());
+        sB.append("Current server count: ").append(serverList.size());
+        return sB.toString();
     }
 
-    public void printCashRegister() {
-        System.out.println("Cash register:");
-        System.out.println("Total money earned = $" + String.format("%.02f", cashRegister));
+    public String printCashRegister() {
+        return "Cash register:\nTotal money earned = $" + String.format("%.02f", cashRegister);
     }
 
     // Getters below:
@@ -290,6 +297,14 @@ public class Restaurant {
      */
     public List<Party> getWaitlist() {
         return waitlist;
+    }
+
+    /**
+     * Gets the current list of seated Parties
+     * @return the list of parties
+     */
+    public List<Party> getSeatedParties() {
+        return seatedParties;
     }
 
     /**
