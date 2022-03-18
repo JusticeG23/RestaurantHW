@@ -20,6 +20,7 @@ public class Table {
      * @param party group assigned to table
      * @param server attendant assigned to table
      * */
+    // todo refactor to not contain server (seatTable(party, server) vs seatParty(party))
     public void seatParty(Party party, Server server) {
         filled = true;
         seatedParty = party;
@@ -27,12 +28,14 @@ public class Table {
     }
 
     /**
-     * Removes party from current table, and therefore relieve the server too
+     * If current table has a party, removes party and server. Else does nothing
      */
     public void removeParty() {
-        filled = false;
-        seatedParty = null;
-        tableServer = null;
+        if (this.getSeatedParty() != null) {
+            filled = false;
+            seatedParty = null;
+            tableServer = null;
+        }
     }
 
     /**
@@ -40,6 +43,7 @@ public class Table {
      * @param party Party object assigned to table
      * @return String representation of pertinent data
      */
+    // todo refactor to not need extra parameter
     public String printTableStatus(int tableID, Party party) {
         String tableStatus = party != null ? party.printParty(getTableServer()) : "empty";
         return "Table " + tableID + " (" + capacity + "-top): " + tableStatus;
